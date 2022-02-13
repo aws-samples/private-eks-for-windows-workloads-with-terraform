@@ -2,7 +2,7 @@
 
 This is a sample repository for the accompanying AWS Container Blog Post *Running Windows Workloads on a private AWS EKS cluster*.  
 
-This repository provides a Terraform implementation that deploys an Amazon EKS cluster in a private VPC and deploys Windows and Linux Worker Nodes into the cluster. The private VPC and EKS cluster are deployed via a Bastion Host in a public VPC that can access the private VPC via VPC peering. The public VPC Bastion Host setup is part of this repository as well.
+This repository provides a Terraform implementation that deploys an Amazon EKS cluster in a private VPC and deploys Windows and Linux Worker Nodes into the cluster. The private VPC and EKS cluster are deployed via a Bastion Host in a public VPC that can access the private VPC via VPC peering. The public VPC and Bastion Host setup is part of this repository as well.
 
 Solution Architecture:
 
@@ -20,8 +20,6 @@ Solution Architecture:
 #### VPC and Bastion host setup
 
 This performs the deployment of the VPC including the setup of the bastion host in a separate VPC. 
-
-If you are re-using an existing Bastion host, make sure to install all necessary libraries on it. Compare [network/main.tf](./network/main.tf) module.ec2_instance.user_data for details.
 
 1. Clone this repository 
 
@@ -48,7 +46,9 @@ If you are re-using an existing Bastion host, make sure to install all necessary
       }
       ````
 
-4. Open a command line and move into the folder *network* and execute the deployement with Terraform:
+4. Make sure that you are logged in to your AWS account using the AWS CLI, refer to [CLI Quickstart](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) for details
+
+5. Open a command line and move into the folder *network* and execute the deployement with Terraform:
 
    ````bash
    |-- private-eks-for-windows-workloads-with-terraform 
@@ -63,7 +63,7 @@ If you are re-using an existing Bastion host, make sure to install all necessary
    $ terraform apply -var-file main-input.tfvars
    ```
 
-5. Note down the output of *out_bastion_public_ip*. 
+6. Note down the output of *out_bastion_public_ip*. 
 
 #### EKS Cluster setup
 
@@ -103,7 +103,9 @@ $ ssh ec2-user@<out_bastion_public_ip> -i <location_of_private_key>
    }
    ````
 
-4. Deploy the EKS cluster with executing the following commands from the root folder of the solution:
+4. If you are using a federated role to access the AWS console, then replace the role ARN in [additional_roles_aws_auth.yaml](./yaml-templates/additional_roles_aws_auth.yaml) with the role that gets federated to allow access to the EKS cluster from the AWS console for you.
+
+5. Deploy the EKS cluster with executing the following commands from the root folder of the solution:
 
    ````bash
    |-- private-eks-for-windows-workloads-with-terraform 
