@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-sample-windows-service
+  namespace: eks-sample-app
+  labels:
+    app: eks-sample-windows-app
+spec:
+  selector:
+    app: eks-sample-windows-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
