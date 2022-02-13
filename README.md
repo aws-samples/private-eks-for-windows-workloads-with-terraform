@@ -6,16 +6,14 @@ This repository provides a Terraform implementation that deploys an Amazon EKS c
 
 Solution Architecture:
 
-![architecture](/Users/rppenker/git/gitlab/terraform_eks_private_windows/Images/architecture.jpg)
+![architecture](./Images/architecture.jpg)
 
 ### Prerequisites
 
-```
 - AWS Account with command line access, https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html 
 - Set up Terraform. For steps, see Terraform downloads (https://www.terraform.io/downloads.html)
 - S3 bucket to save the state 
 - DynamoDB table for the statelock with partition key "LockID" of type String
-```
 
 ### How to use
 
@@ -34,7 +32,7 @@ If you are re-using an existing Bastion host, make sure to install all necessary
    1. Follow the [Userguide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) to create a S3 bucket.
    2. Follow the [Developerguide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/getting-started-step-1.html) to create a DynamoDB table with the correct Partition key:
 
-   <img src="/Users/rppenker/git/gitlab/terraform_eks_private_windows/Images/dynamoDBTableCreation.png" alt="dynamoDBTableCreation" style="zoom:33%;" />
+   <img src="./Images/dynamoDBTableCreation.png" alt="dynamoDBTableCreation" style="zoom:33%;" />
 
    3. Insert correct values in [network/main.tf](./network/main.tf) :
 
@@ -50,8 +48,6 @@ If you are re-using an existing Bastion host, make sure to install all necessary
       }
       ````
 
-      
-
 4. Open a command line and move into the folder *network* and execute the deployement with Terraform:
 
    ````bash
@@ -61,7 +57,7 @@ If you are re-using an existing Bastion host, make sure to install all necessary
    |   |   |-- main-input.tfvars
    ````
 
-   ```bash
+   ```
    $ cd network
    $ terraform init
    $ terraform apply -var-file main-input.tfvars
@@ -77,7 +73,7 @@ Make sure to execute the terraform script from inside the Bastion Host as otherw
 
 1. SSH into the Linux node. 
 
-```bash
+```
 $ ssh ec2-user@<out_bastion_public_ip> -i <location_of_private_key>
 ```
 
@@ -131,7 +127,7 @@ $ aws eks update-kubeconfig --name sample-cluster-01 --region eu-central-1
 $ kubectl get nodes
 ```
 
-![kubectl_get_nodes](/Users/rppenker/git/gitlab/terraform_eks_private_windows/Images/kubectl_get_nodes.png)
+![kubectl_get_nodes](./Images/kubectl_get_nodes.png)
 
 ## Cleanup
 
