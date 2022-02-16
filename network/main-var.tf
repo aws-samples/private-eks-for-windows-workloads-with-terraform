@@ -31,6 +31,6 @@ variable "bastion_host_key_name" {
   type        = string
 }
 variable "ssh_bastion_cidr" {
-  description = "Please enter a list of CIDR range(s) that are allowed to access the Bastion Host - Usually these are your corporate CIDR ranges - [\"0.0.0.0/0\"] allows access from all IPv4 adresses"
+  description = "Please enter a list of CIDR range(s) that are allowed to access the Bastion Host - Usually these are your corporate CIDR ranges - You can also restrict access to only your IP address by using /32 as prefix e.g. [\"192.168.10.10/32\"] - [\"0.0.0.0/0\"] allows access from all IPv4 adresses but is not recommended"
   type        = list(string)
 } 

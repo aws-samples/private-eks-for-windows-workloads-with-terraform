@@ -1,8 +1,9 @@
 # private-eks-for-windows-workloads-with-terraform
+<!---
+This is a sample repository for the accompanying AWS Container Blog Post *Running Windows workloads on a private EKS cluster*.  
+-->
 
-This is a sample repository for the accompanying AWS Container Blog Post *Running Windows Workloads on a private AWS EKS cluster*.  
-
-This repository provides a Terraform implementation that deploys an Amazon EKS cluster in a private VPC and deploys Windows and Linux Worker Nodes into the cluster. The private VPC and EKS cluster are deployed via a Bastion Host in a public VPC that can access the private VPC via VPC peering. The public VPC and Bastion Host setup is part of this repository as well.
+This repository provides a Terraform implementation that deploys an Amazon EKS cluster in a private VPC and deploys Windows and Linux worker nodes into the cluster. The private VPC and EKS cluster are deployed via a bastion host in a public VPC that can access the private VPC via VPC peering. The public VPC and bastion host setup is part of this repository as well.
 
 Solution Architecture:
 
@@ -10,14 +11,14 @@ Solution Architecture:
 
 ### Prerequisites
 
-- AWS Account with command line access, https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html 
-- Set up Terraform. For steps, see Terraform downloads (https://www.terraform.io/downloads.html)
-- S3 bucket to save the state 
-- DynamoDB table for the statelock with partition key "LockID" of type String
+- AWS Account with command line access, https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html.
+- Set up Terraform. For steps, see Terraform downloads (https://www.terraform.io/downloads.html).
+- S3 bucket to save the state.
+- DynamoDB table for the statelock with partition key "LockID" of type String.
 
 ### How to use
 
-#### VPC and Bastion host setup
+#### VPC and bastion host setup
 
 This performs the deployment of the VPC including the setup of the bastion host in a separate VPC. 
 
@@ -46,7 +47,7 @@ This performs the deployment of the VPC including the setup of the bastion host 
       }
       ````
 
-4. Make sure that you are logged in to your AWS account using the AWS CLI, refer to [CLI Quickstart](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) for details
+4. Make sure that you are logged into your AWS account using the AWS CLI. Refer to [CLI Quickstart](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) for details.
 
 5. Open a command line and move into the folder *network* and execute the deployement with Terraform:
 
@@ -67,9 +68,9 @@ This performs the deployment of the VPC including the setup of the bastion host 
 
 #### EKS Cluster setup
 
-This performs the deployment of the EKS cluster and the Nodegroups for Windows and Linux.
+This performs the deployment of the EKS cluster and the nodegroups for Windows and Linux.
 
-Make sure to execute the terraform script from inside the Bastion Host as otherwise Terraform will not be able to connect to the EKS cluster as the private endpoint will only be accessible from within the private VPC itself or a peered VPC. 
+Make sure to execute the Terraform script from inside the bastion host as otherwise Terraform will not be able to connect to the EKS cluster as the private endpoint will only be accessible from within the private VPC itself or a peered VPC. 
 
 1. SSH into the Linux node. 
 
@@ -77,7 +78,7 @@ Make sure to execute the terraform script from inside the Bastion Host as otherw
 $ ssh ec2-user@<out_bastion_public_ip> -i <location_of_private_key>
 ```
 
-2. Clone the git repo to the Bastion Host.
+2. Clone the git repo to the bastion host.
 
 3. Replace the backed configuration in the [main.tf](./main.tf) with the same S3 bucket used for the network setup and DynamoDB table in your AWS account. 
    Add the correct backend configuration for *terraform_remote_state.network* as well.
@@ -105,7 +106,7 @@ $ ssh ec2-user@<out_bastion_public_ip> -i <location_of_private_key>
 
 4. If you are using a federated role to access the AWS console, then replace the role ARN in [additional_roles_aws_auth.yaml](./yaml-templates/additional_roles_aws_auth.yaml) with the role that gets federated to allow access to the EKS cluster from the AWS console for you.
 
-5. Deploy the EKS cluster with executing the following commands from the root folder of the solution:
+5. Deploy the EKS cluster with the following commands from the root folder of the solution:
 
    ````bash
    |-- private-eks-for-windows-workloads-with-terraform 
@@ -118,7 +119,7 @@ $ terraform init
 $ terraform apply -var-file main-input.tfvars
 ```
 
-5. The Windows Nodes can take a few minutes until they are successfully bootstrapped and connected to the Cluster.
+5. The Windows nodes can take a few minutes until they are successfully bootstrapped and connected to the cluster.
 
 #### Validate deployment
 
@@ -135,7 +136,7 @@ $ kubectl get nodes
 
 ### EKS Cluster
 
-Execute the following inside of the root path of the repository inside the Bastion Host to clean-up the EKS cluster as well as the worker nodes:
+Execute the following inside of the root path of the repository inside the bastion host to clean-up the EKS cluster as well as the worker nodes:
 
 ````bash
 |-- private-eks-for-windows-workloads-with-terraform 
@@ -180,13 +181,13 @@ The repository provides the following defaults for the setup:
 - EKS cluster
   - eks_cluster_name = "sample-cluster-01"
   - eks_cluster_version = "1.21"
-- Linux Nodegroup
+- Linux nodegroup
   - lin_desired_size = "2"
   - lin_max_size = "2"
   - lin_min_size = "2"
   - lin_instance_type = "t3.medium"
 
-- Windows Nodegroup
+- Windows nodegroup
   - win_desired_size = "2"
   - win_max_size = "2"
   - win_min_size = "2"
