@@ -41,16 +41,21 @@ module "public_vpc" {
   enable_nat_gateway     = false
   enable_vpn_gateway     = false
 }
-resource "aws_iam_instance_profile" "ec2_admin_terraform" {
-  name = "ec2_admin_terraform"
-  role = aws_iam_role.ec2_admin_role.name
+resource "aws_iam_instance_profile" "ec2_eks_terraform" {
+  name = "ec2_eks_terraform"
+  role = aws_iam_role.ec2_eks_role.name
 }
 
-resource "aws_iam_role" "ec2_admin_role" {
-  name = "ec2_admin_role_terraform"
-  ### not recommend for productive use:
-  managed_policy_arns = ["arn:aws:iam::aws:policy/AdministratorAccess"]
-  ###
+### Loads a pre-defined policy 
+resource "aws_iam_policy" "ec2_eks_terraform_policy" {
+  name        = "ec2_eks_terraform_policy"
+  path        = "/"
+  description = "Policy to create EKS cluster with Windows and Linux Nodes"
+  policy      = "${file("bastion_host_policy.json")}"
+}
+resource "aws_iam_role" "ec2_eks_role" {
+  name = "ec2_eks_role_terraform"
+  managed_policy_arns = [resource.aws_iam_policy.ec2_eks_terraform_policy.arn]
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -64,7 +69,6 @@ resource "aws_iam_role" "ec2_admin_role" {
       },
     ]
   })
-
 }
 
 module "ec2_instance" {
@@ -77,7 +81,7 @@ module "ec2_instance" {
   monitoring             = false
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   subnet_id              = module.public_vpc.public_subnets[0]
-  iam_instance_profile = aws_iam_instance_profile.ec2_admin_terraform.name
+  iam_instance_profile = aws_iam_instance_profile.ec2_eks_terraform.name
   user_data = <<EOF
     #!/bin/bash
     sudo yum install -y yum-utils

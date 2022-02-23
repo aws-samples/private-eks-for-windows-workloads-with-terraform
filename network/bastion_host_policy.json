@@ -1,0 +1,122 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+                "ec2:*",
+                "autoscaling:*",
+				"kms:CreateKey",
+				"ssm:ListInstanceAssociations",
+				"ssm:UpdateInstanceInformation",
+				"sts:GetCallerIdentity"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:CreateVpcEndpoint",
+				"route53:AssociateVPCWithHostedZone"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "ec2:RunInstances",
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:AddRoleToInstanceProfile",
+				"iam:CreateInstanceProfile",
+				"iam:DeleteInstanceProfile",
+				"iam:GetInstanceProfile",
+				"iam:RemoveRoleFromInstanceProfile",
+				"iam:TagInstanceProfile",
+                "iam:TagOpenIDConnectProvider"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:CreateOpenIDConnectProvider",
+				"iam:DeleteOpenIDConnectProvider",
+				"iam:GetOpenIDConnectProvider"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:AttachRolePolicy",
+				"iam:CreateRole",
+				"iam:CreateServiceLinkedRole",
+				"iam:DeleteRole",
+				"iam:DetachRolePolicy",
+				"iam:GetRole",
+				"iam:ListAttachedRolePolicies",
+				"iam:ListInstanceProfilesForRole",
+				"iam:ListRolePolicies",
+				"iam:PassRole",
+                "iam:TagRole"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"kms:CreateGrant",
+				"kms:DescribeKey",
+				"kms:GetKeyPolicy",
+				"kms:GetKeyRotationStatus",
+				"kms:ListResourceTags",
+				"kms:PutKeyPolicy",
+				"kms:ScheduleKeyDeletion",
+				"kms:TagResource"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:CreateLogGroup",
+				"logs:DeleteLogGroup",
+				"logs:DescribeLogGroups",
+				"logs:ListTagsLogGroup",
+				"logs:PutRetentionPolicy"
+			],
+			"Resource": "*"
+		},
+        {
+			"Effect": "Allow",
+			"Action": [
+				"eks:*"
+			],
+			"Resource": "*"
+		},
+        {
+			"Effect": "Allow",
+			"Action": [
+				"cloudwatch:*"
+			],
+			"Resource": "*"
+		},
+        {
+			"Effect": "Allow",
+			"Action": [
+				"s3:*"
+			],
+			"Resource": "*"
+		},
+        {
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:*"
+			],
+			"Resource": "*"
+		}
+	]
+}
