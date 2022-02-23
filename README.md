@@ -1,7 +1,6 @@
 # private-eks-for-windows-workloads-with-terraform
-<!---
-This is a sample repository for the accompanying AWS Container Blog Post *Running Windows workloads on a private EKS cluster*.  
--->
+
+This is a sample repository for the accompanying AWS Container Blog Post [Running Windows workloads on a private EKS cluster](https://aws.amazon.com/blogs/containers/running-windows-workloads-on-a-private-eks-cluster/).  
 
 This repository provides a Terraform implementation that deploys an Amazon EKS cluster in a private VPC and deploys Windows and Linux worker nodes into the cluster. The private VPC and EKS cluster are deployed via a bastion host in a public VPC that can access the private VPC via VPC peering. The public VPC and bastion host setup is part of this repository as well.
 
